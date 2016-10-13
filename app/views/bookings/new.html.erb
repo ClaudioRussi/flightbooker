@@ -1,0 +1,23 @@
+<div class="container">
+  <h1>Flight data:</h1>
+  <ul class="col-md-4">
+    <li>Flight number: <%=@booking.flight.id%></li>
+    <li>From: <%=@booking.flight.start_airport.code%></li>
+    <li>To: <%=@booking.flight.finish_airport.code%></li>
+    <li>Date: <%=@booking.flight.start_datetime%></li>
+    <li>Duration: <%=@booking.flight.flight_duration%> minutes</li>
+  </ul>
+</div>
+<div class="container">
+  <%= form_for @booking do |f| %>
+    <%= f.hidden_field :flight, :value => @booking.flight.id %>
+
+    <%=f.fields_for :passengers do |pass|%>
+      <p>Name <%= pass.text_field :name, class:"form-control" %>
+      Email <%= pass.text_field :email, class:"form-control" %></p>
+    <% end %>
+
+
+    <%= f.submit :finish %> 
+  <% end %>
+</div>

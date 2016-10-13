@@ -1,0 +1,29 @@
+<%= form_tag "/flights", method: "get", class:"form-horizontal" do %>
+<div class="form-group">
+  <%= label_tag :from_airport, "From", class:"form-control, col-xs-4" %>
+  <%= select_tag :from_airport, options_for_select(@airports_for_select), class:"form-control, col-xs-4" %>
+</div>
+<div class="form-group">
+  <%= label_tag :to_airport, "To", class:"form-control, col-xs-4" %>
+  <%= select_tag :to_airport, options_for_select(@airports_for_select), class:"form-inline, col-xs-4" %>
+</div>
+<div class="form-group">
+  <%= label_tag :date, "Date", class:"form-control, col-xs-4" %>
+  <%= select_tag :date, options_for_select(@dates_for_select), class:"form-control, col-xs-4" %>
+</div>
+<div class="form-group">
+  <%= label_tag :passengers, "Passengers", class:"form-control, col-xs-4" %>
+  <%= select_tag :passengers, options_for_select([[1,1],[2,2],[3,3],[4,4]]), class:"form-control, col-xs-4" %>
+</div>
+  <%= submit_tag "Search", class:"btn btn-primary"%>
+<% end %>
+
+<% if @flights %>
+  <% @flights.find_each do |flight| %>
+    <%= form_tag "bookings/new", method: "get" do %>
+      <p> <%= radio_button_tag :flight, flight.id%> From: <%= flight.start_airport.code %> To: <%= flight.finish_airport.code %> Date: <%=flight.start_datetime %></p>
+      <%= hidden_field_tag :passengers_number, @passengers %>
+      <%= submit_tag "Next step" %>
+    <%end %>
+  <% end %>
+<% end %>
